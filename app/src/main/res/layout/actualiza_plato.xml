@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edtPrice"
+        android:id="@+id/txtMPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -18,10 +18,10 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/edtName"
+        android:id="@+id/txtMNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edtPrice"
+        android:layout_above="@+id/txtMPrecio"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
@@ -32,10 +32,10 @@
         android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/btnUpdate"
+        android:id="@+id/btnMActualizar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edtPrice"
+        android:layout_below="@+id/txtMPrecio"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="32dp"
@@ -44,13 +44,18 @@
         android:textColor="#ffffff" />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginLeft="113dp"
-        android:layout_marginStart="113dp"
-        android:id="@+id/imageViewFood"
-        android:layout_alignParentTop="true"
+        android:id="@+id/imgMPlato"
+        android:layout_width="170dp"
+        android:layout_height="156dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="105dp"
+        android:layout_marginLeft="105dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="109dp"
+        android:layout_marginRight="109dp"
+        app:srcCompat="@mipmap/ic_launcher" />
 </RelativeLayout>

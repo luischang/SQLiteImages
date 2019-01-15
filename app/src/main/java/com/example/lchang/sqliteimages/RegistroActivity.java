@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -25,22 +24,22 @@ import java.io.InputStream;
 
 public class RegistroActivity extends AppCompatActivity {
 
-    EditText edtName, edtPrice;
-    Button btnChoose, btnAdd, btnList;
-    ImageView imageView;
+    EditText txtNombre, txtPrecio;
+    Button btnElegirImagen, btnAgregar, btnListado;
+    ImageView imgPlato;
     private DBManager dbManager;
     final int REQUEST_CODE_GALLERY = 999;
-    public static DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+        setTitle("Registro de platos");
         init();
 
         dbManager = new DBManager(this);
 
-        btnChoose.setOnClickListener(new View.OnClickListener() {
+        btnElegirImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ActivityCompat.requestPermissions(
@@ -51,17 +50,17 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try{
                     dbManager.open();
-                    dbManager.insert(edtName.getText().toString().trim(), Double.parseDouble(edtPrice.getText().toString()),imageViewToByte(imageView));
+                    dbManager.insert(txtNombre.getText().toString().trim(), Double.parseDouble(txtPrecio.getText().toString()),imageViewToByte(imgPlato));
                     dbManager.close();
                     Toast.makeText(getApplicationContext(), "Agregado exitosamente!!", Toast.LENGTH_SHORT).show();
-                    edtName.setText("");
-                    edtPrice.setText("");
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    txtNombre.setText("");
+                    txtPrecio.setText("");
+                    imgPlato.setImageResource(R.mipmap.ic_launcher);
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -69,7 +68,7 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
 
-        btnList.setOnClickListener(new View.OnClickListener() {
+        btnListado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RegistroActivity.this, ListadoActivity.class);
@@ -90,7 +89,6 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public static byte[] imageViewToByte(ImageView image) {
-        //Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
         Bitmap bitmap = getBitmapFromDrawable(image.getDrawable());
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -108,7 +106,7 @@ public class RegistroActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_GALLERY);
             }
             else {
-                Toast.makeText(getApplicationContext(), "No cuentas con permisos para acceder a la galería de fotos!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "No cuenta con permisos para acceder a la galería de fotos!", Toast.LENGTH_SHORT).show();
             }
             return;
         }
@@ -126,7 +124,7 @@ public class RegistroActivity extends AppCompatActivity {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
 
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                imageView.setImageBitmap(bitmap);
+                imgPlato.setImageBitmap(bitmap);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -137,11 +135,11 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void init(){
-        edtName = (EditText) findViewById(R.id.edtName);
-        edtPrice = (EditText) findViewById(R.id.edtPrice);
-        btnChoose = (Button) findViewById(R.id.btnChoose);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
-        btnList = (Button) findViewById(R.id.btnList);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        txtNombre = (EditText) findViewById(R.id.txtNombre);
+        txtPrecio = (EditText) findViewById(R.id.txtPrecio);
+        btnElegirImagen = (Button) findViewById(R.id.btnElegirImagen);
+        btnAgregar = (Button) findViewById(R.id.btnAgregar);
+        btnListado = (Button) findViewById(R.id.btnListado);
+        imgPlato = (ImageView) findViewById(R.id.imgPlato);
     }
 }

@@ -4,7 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +22,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ListadoActivity extends AppCompatActivity {
@@ -33,6 +40,7 @@ public class ListadoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
+        setTitle("Listado de Platos");
 
         dbManager = new DBManager(this);
         dbManager.open();
@@ -93,22 +101,19 @@ public class ListadoActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
     }
 
-    ImageView imageViewFood;
+    ImageView imgMPlato;
     private void showDialogUpdate(Activity activity, final int position){
 
         final Dialog dialog = new Dialog(activity);
         dialog.setContentView(R.layout.actualiza_plato);
         dialog.setTitle("Actualizar");
 
-        imageViewFood = (ImageView) dialog.findViewById(R.id.imageViewFood);
-        final EditText edtName = (EditText) dialog.findViewById(R.id.edtName);
-        final EditText edtPrice = (EditText) dialog.findViewById(R.id.edtPrice);
-        Button btnUpdate = (Button) dialog.findViewById(R.id.btnUpdate);
+        imgMPlato = (ImageView) dialog.findViewById(R.id.imgMPlato);
+        final EditText txtMNombre = (EditText) dialog.findViewById(R.id.txtMNombre);
+        final EditText txtMPrecio = (EditText) dialog.findViewById(R.id.txtMPrecio);
+        Button btnUpdate = (Button) dialog.findViewById(R.id.btnMActualizar);
 
         // set width for dialog
         int width = (int) (activity.getResources().getDisplayMetrics().widthPixels * 0.95);
@@ -117,7 +122,7 @@ public class ListadoActivity extends AppCompatActivity {
         dialog.getWindow().setLayout(width, height);
         dialog.show();
 
-        imageViewFood.setOnClickListener(new View.OnClickListener() {
+        imgMPlato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // request photo library
@@ -136,9 +141,9 @@ public class ListadoActivity extends AppCompatActivity {
                     dbManager = new DBManager(getApplicationContext());
                     dbManager.open();
                     DBManager.update(position,
-                            edtName.getText().toString().trim(),
-                            Double.parseDouble(edtPrice.getText().toString().trim()),
-                            RegistroActivity.imageViewToByte(imageViewFood)
+                            txtMNombre.getText().toString().trim(),
+                            Double.parseDouble(txtMPrecio.getText().toString().trim()),
+                            RegistroActivity.imageViewToByte(imgMPlato)
                     );
                     dbManager.close();
                     dialog.dismiss();
@@ -195,6 +200,41 @@ public class ListadoActivity extends AppCompatActivity {
             list.add(new Plato(id, name, Double.parseDouble(price), image));
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if(requestCode == 888){
+            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 888);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "No cuenta con permiso para acceder a la galería!", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == 888 && resultCode == RESULT_OK && data != null){
+            Uri uri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                imgMPlato.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

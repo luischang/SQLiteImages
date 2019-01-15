@@ -48,9 +48,6 @@ public class DBManager {
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME, columns
                 , null, null
                 , null, null, null);
-//        if (cursor != null) {
-//            cursor.moveToFirst();
-//        }
         return cursor;
     }
 

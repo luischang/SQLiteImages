@@ -11,11 +11,9 @@
     android:paddingTop="16dp" >
 
     <EditText
-        android:id="@+id/edtName"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtNombre"
+        android:layout_width="172dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -24,57 +22,59 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/edtPrice"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtPrecio"
+        android:layout_width="174dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edtName"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/txtNombre"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Precio"
-        android:inputType="textPersonName" />
+        android:inputType="numberDecimal" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_below="@+id/edtPrice"
-        android:layout_alignParentLeft="true"
+        android:id="@+id/imgPlato"
+        android:layout_width="146dp"
+        android:layout_height="135dp"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_toStartOf="@+id/txtMPrecio"
+        android:layout_toLeftOf="@+id/txtMPrecio"
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <Button
-        android:id="@+id/btnChoose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_marginStart="29dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginBottom="45dp"
-        android:layout_toEndOf="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
+        android:id="@+id/btnElegirImagen"
+        android:layout_width="150dp"
+        android:layout_height="39dp"
+        android:layout_below="@+id/imgPlato"
+        android:layout_alignEnd="@+id/imgPlato"
+        android:layout_marginTop="8dp"
         android:text="ELEGIR IMAGEN" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnAgregar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp"
+        android:layout_below="@+id/imgPlato"
+        android:layout_marginTop="97dp"
         android:text="AGREGAR" />
 
     <Button
-        android:id="@+id/btnList"
+        android:id="@+id/btnListado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnAdd"
-        android:layout_alignStart="@+id/btnAdd"
-        android:layout_alignLeft="@+id/btnAdd"
-        android:layout_marginTop="18dp"
+        android:layout_below="@+id/btnAgregar"
+        android:layout_alignStart="@+id/btnAgregar"
+        android:layout_alignLeft="@+id/btnAgregar"
+        android:layout_marginStart="-8dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginTop="83dp"
         android:text="LISTADO" />
 </RelativeLayout>
