@@ -54,9 +54,9 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try{
-                    dbManager.open();
+                    //dbManager.open();
                     dbManager.insert(txtNombre.getText().toString().trim(), Double.parseDouble(txtPrecio.getText().toString()),imageViewToByte(imgPlato));
-                    dbManager.close();
+                    //dbManager.close();
                     Toast.makeText(getApplicationContext(), "Agregado exitosamente!!", Toast.LENGTH_SHORT).show();
                     txtNombre.setText("");
                     txtPrecio.setText("");

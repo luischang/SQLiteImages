@@ -32,9 +32,7 @@ public class ListadoActivity extends AppCompatActivity {
     GridView gridView;
     ArrayList<Plato> list;
     PlatoAdapter adapter = null;
-
     private DBManager dbManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +41,9 @@ public class ListadoActivity extends AppCompatActivity {
         setTitle("Listado de Platos");
 
         dbManager = new DBManager(this);
-        dbManager.open();
-        Cursor cursor = dbManager.fetch();
 
         gridView = (GridView) findViewById(R.id.gridView);
-        list = new ArrayList<>();
-        adapter = new PlatoAdapter(this, R.layout.item_plato, list);
-
-        gridView.setAdapter(adapter);
-
-        while (cursor.moveToNext()) {
-            int codigo = cursor.getInt(0);
-            String nombre = cursor.getString(1);
-            Double precio = cursor.getDouble(2);
-            byte[] imagen = cursor.getBlob(3);
-
-            list.add(new Plato(codigo,nombre,precio,imagen));
-        }
-        adapter.notifyDataSetChanged();
-
-        dbManager.close();
+        this.updateFoodList();
 
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -75,24 +56,12 @@ public class ListadoActivity extends AppCompatActivity {
                 dialog.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
+                        ArrayList<Integer> arrID = dbManager.getData("SELECT codigo FROM PLATO");
                         if (item == 0) {
-                            // update
-                            //Cursor c = MainActivity.sqLiteHelper.getData("SELECT id FROM FOOD");
-                            Cursor c = DBManager.getData("SELECT codigo FROM PLATO");
-                            ArrayList<Integer> arrID = new ArrayList<Integer>();
-                            while (c.moveToNext()){
-                                arrID.add(c.getInt(0));
-                            }
-                            // show dialog update at here
+                            // Ver dialog Update
                             showDialogUpdate(ListadoActivity.this, arrID.get(position));
 
                         } else {
-                            // delete
-                            Cursor c = DBManager.getData("SELECT codigo FROM PLATO");
-                            ArrayList<Integer> arrID = new ArrayList<Integer>();
-                            while (c.moveToNext()){
-                                arrID.add(c.getInt(0));
-                            }
                             showDialogDelete(arrID.get(position));
                         }
                     }
@@ -139,13 +108,11 @@ public class ListadoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     dbManager = new DBManager(getApplicationContext());
-                    dbManager.open();
-                    DBManager.update(position,
+                    dbManager.update(position,
                             txtMNombre.getText().toString().trim(),
                             Double.parseDouble(txtMPrecio.getText().toString().trim()),
                             RegistroActivity.imageViewToByte(imgMPlato)
                     );
-                    dbManager.close();
                     dialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Actualización exitosa!!!",Toast.LENGTH_SHORT).show();
                 }
@@ -167,9 +134,7 @@ public class ListadoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     dbManager = new DBManager(getApplicationContext());
-                    dbManager.open();
-                   DBManager.delete(idFood);
-                    dbManager.close();
+                    dbManager.delete(idFood);
                     Toast.makeText(getApplicationContext(), "Eliminación exitosa!!!",Toast.LENGTH_SHORT).show();
                 } catch (Exception e){
                     Log.e("error", e.getMessage());
@@ -188,17 +153,11 @@ public class ListadoActivity extends AppCompatActivity {
     }
 
     private void updateFoodList(){
-        // get all data from sqlite
-        Cursor cursor = DBManager.getData("SELECT * FROM Plato");
-        list.clear();
-        while (cursor.moveToNext()) {
-            int id = cursor.getInt(0);
-            String name = cursor.getString(1);
-            String price = cursor.getString(2);
-            byte[] image = cursor.getBlob(3);
 
-            list.add(new Plato(id, name, Double.parseDouble(price), image));
-        }
+        list = new ArrayList<>();
+        list = dbManager.fetch();
+        adapter = new PlatoAdapter(this, R.layout.item_plato, list);
+        gridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
