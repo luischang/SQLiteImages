@@ -23,22 +23,18 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class RegistroActivity extends AppCompatActivity {
-
     EditText txtNombre, txtPrecio;
     Button btnElegirImagen, btnAgregar, btnListado;
     ImageView imgPlato;
     private DBManager dbManager;
     final int REQUEST_CODE_GALLERY = 999;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         setTitle("Registro de platos");
         init();
-
         dbManager = new DBManager(this);
-
         btnElegirImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +45,6 @@ public class RegistroActivity extends AppCompatActivity {
                 );
             }
         });
-
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +62,6 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         });
-
         btnListado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,8 +69,6 @@ public class RegistroActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     @NonNull
@@ -87,7 +79,6 @@ public class RegistroActivity extends AppCompatActivity {
         drawable.draw(canvas);
         return bmp;
     }
-
     public static byte[] imageViewToByte(ImageView image) {
         Bitmap bitmap = getBitmapFromDrawable(image.getDrawable());
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -95,22 +86,18 @@ public class RegistroActivity extends AppCompatActivity {
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         if(requestCode == REQUEST_CODE_GALLERY){
             if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_CODE_GALLERY);
-            }
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);            }
             else {
                 Toast.makeText(getApplicationContext(), "No cuenta con permisos para acceder a la galería de fotos!", Toast.LENGTH_SHORT).show();
             }
             return;
         }
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

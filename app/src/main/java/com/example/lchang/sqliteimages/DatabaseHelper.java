@@ -1,15 +1,10 @@
 package com.example.lchang.sqliteimages;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
-
-import java.sql.Blob;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
     // Nombre de la tabla
     public static final String TABLE_NAME = "PLATO";
 

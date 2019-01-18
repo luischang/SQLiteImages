@@ -9,10 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 public class DBManager {
-
     static private DatabaseHelper dbHelper;
-    private Context context;
     static private SQLiteDatabase database;
+    private Context context;
 
     public DBManager(Context c) {
         context = c;

@@ -33,15 +33,12 @@ public class ListadoActivity extends AppCompatActivity {
     ArrayList<Plato> list;
     PlatoAdapter adapter = null;
     private DBManager dbManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
         setTitle("Listado de Platos");
-
         dbManager = new DBManager(this);
-
         gridView = (GridView) findViewById(R.id.gridView);
         this.updateFoodList();
 
@@ -126,7 +123,6 @@ public class ListadoActivity extends AppCompatActivity {
 
     private void showDialogDelete(final int idFood){
         final AlertDialog.Builder dialogDelete = new AlertDialog.Builder(ListadoActivity.this);
-
         dialogDelete.setTitle("Advertencia!!");
         dialogDelete.setMessage("Esta seguro de eliminar el registro?");
         dialogDelete.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -153,17 +149,14 @@ public class ListadoActivity extends AppCompatActivity {
     }
 
     private void updateFoodList(){
-
         list = new ArrayList<>();
         list = dbManager.fetch();
         adapter = new PlatoAdapter(this, R.layout.item_plato, list);
         gridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         if(requestCode == 888){
             if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -177,10 +170,8 @@ public class ListadoActivity extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(requestCode == 888 && resultCode == RESULT_OK && data != null){
             Uri uri = data.getData();
             try {
@@ -192,8 +183,6 @@ public class ListadoActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 }

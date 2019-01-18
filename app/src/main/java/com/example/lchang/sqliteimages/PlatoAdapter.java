@@ -43,17 +43,13 @@ public class PlatoAdapter extends BaseAdapter {
         ImageView imgPlato;
         TextView txtNombre, txtPrecio;
     }
-
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-
         View row = view;
         ViewHolder holder = new ViewHolder();
-
         if(row == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(layout, null);
-
             holder.txtNombre = (TextView) row.findViewById(R.id.txtNombre);
             holder.txtPrecio = (TextView) row.findViewById(R.id.txtPrecio);
             holder.imgPlato = (ImageView) row.findViewById(R.id.imgPlato);
@@ -64,7 +60,6 @@ public class PlatoAdapter extends BaseAdapter {
         }
 
         Plato plato = listaPlato.get(position);
-
         holder.txtNombre.setText(plato.getNombre());
         holder.txtPrecio.setText(plato.getPrecio().toString());
 
