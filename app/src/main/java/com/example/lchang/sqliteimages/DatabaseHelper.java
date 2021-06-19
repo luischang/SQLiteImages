@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "RESTAURANT.DB";
 
     // Versión de la base de datos(importante)
-    static final int DB_VERSION = 3;
+    static final int DB_VERSION = 1;
 
     // Script para la creación de la tabla
     private static final String CREATE_TABLE = "create table " + TABLE_NAME + "("
